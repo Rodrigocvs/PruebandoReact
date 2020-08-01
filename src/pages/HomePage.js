@@ -19,8 +19,8 @@ class HomePages extends React.Component {
                                             src={conflogo} 
                                             alt="Conf Logo" />
                                             <h1>PRINT YOUT BADGES</h1>
-                                            <h3>The easiest way to manage your</h3>
-                                            <h3>conference</h3>
+                                            <h3>The easiest way to manage your conference</h3>
+                                            
                                             <Link to="/badges" className="btn btn-primary">Start Now</Link>
                                         </div>
                                         <div className="Home__col d-none d-md-block col-md-8">
