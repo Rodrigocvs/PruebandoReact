@@ -4,85 +4,87 @@ import './styles/Badges.css';
 import confLogo from '../images/badge-header.svg';
 import BadgesList from '../components/BadgesList';
 import { Link } from 'react-router-dom';
+import api from '../api';
 
 class Badges extends React.Component {
     
+state = {
+    loading: true,
+    error: null,
+    data: undefined
+};
 
+/*Este método se ejecuta cuando se instancia un componente. Nos permite definir el 
+estado inicial del 		componente, hacer bind de métodos y definir propiedades internas 
+en las que podemos guardar muchos datos diferente*/
     constructor(props) {
         super(props);
         console.log ('1. constructor()')
-        this.state = {
-            data: []
+//        this.state = {
+//            data: []
             
-        };
+//        };
     }
 //cuando ya estoy mostrando en pantalla
+/*Este último método de la fase de montado se ejecuta una vez el 
+componente se renderizó en el navegador y nos permite interactuar 
+con el DOM o las otras APIs del navegador (geolocation, navigator, 
+notificaciones, etc.). ACA HAGO LAS PETICIONES A LAS API*/
     componentDidMount() {
         console.log('3.')
+        //       this.timeoutId = setTimeout(() => {
+        //           this.setState({
+        //             data: 
+        //          });
+        //      }, 3000);
+        this.fechtData ()
+   }
 
-         this.timeoutId = setTimeout(() => {
-            this.setState({
-                data: [
-                    {
-                      id: '2de30c42-9deb-40fc-a41f-05e62b5939a7',
-                      firstName: 'Freda',
-                      lastName: 'Grady',
-                      email: 'Leann_Berge@gmail.com',
-                      jobTitle: 'Legacy Brand Director',
-                      twitter: 'FredaGrady22221-7573',
-                      avatarUrl:
-                        'https://www.gravatar.com/avatar/f63a9c45aca0e7e7de0782a6b1dff40b?d=identicon',
-                    },
-                    {
-                      id: 'd00d3614-101a-44ca-b6c2-0be075aeed3d',
-                      firstName: 'Major',
-                      lastName: 'Rodriguez',
-                      email: 'Ilene66@hotmail.com',
-                      jobTitle: 'Human Research Architect',
-                      twitter: 'MajorRodriguez61545',
-                      avatarUrl:
-                        'https://www.gravatar.com/avatar/d57a8be8cb9219609905da25d5f3e50a?d=identicon',
-                    },
-                    {
-                      id: '63c03386-33a2-4512-9ac1-354ad7bec5e9',
-                      firstName: 'Daphney',
-                      lastName: 'Torphy',
-                      email: 'Ron61@hotmail.com',
-                      jobTitle: 'National Markets Officer',
-                      twitter: 'DaphneyTorphy96105',
-                      avatarUrl:
-                        'https://www.gravatar.com/avatar/e74e87d40e55b9ff9791c78892e55cb7?d=identicon',
-                    },
-                ],
-            });
-        }, 3000);
+   fechtData = async ()=>{
+       this.setState ({loading: true, error: null})
 
-        
-    }
+                 //llamada a la api       
+       try{
+            const data = await api.badges.list();
+            this.setState({loading: false, data: data}) 
+       } catch (error) {
+            this.setState({loading: false, error: error})
+       }
+   }
 //cuando se actualiza el estado de componente
     componentDidUpdate(prevProps, prevState) {
         console.log('5');
-        console.log ({
-            prevProps: prevProps , prevState: prevState
-        })
-
-        console.log({
-            props: this.props,
-            state: this.state,
-        });
+//        console.log ({
+//            prevProps: prevProps , prevState: prevState(())
+//        })
+//        console.log({
+//            props: this.props,
+//            state: this.state,
+//        });
     }
 //cuando abandono la pagina
+/*Una vez el método anterior devolvió true 
+se ejecuta este método, acá es posible realizar cualquier 
+tipo de preparación antes de que se actualice de la UI*/
     componentWillUnmount(){
         console.log('6')
-        clearTimeout(this.timeoutId)
+//        clearTimeout(this.timeoutId)
     }
-// lo que tengo que mostrar en pantalla
+// lo que tengo que mostrar en pantalla, calculo lo que tengo que mostrar en pantalla
+/*En este momento de la fase de montado se van a tomar las propiedades, 
+el estado y el contexto y se va a generar la UI inicial de este componente*/
     render() { 
+//cuando estoy empezando y estoy leyendo los datos        
+        if(this.state.loading === true){
+            return 'Loading...';
+        }
+        if(this.state.error){
+            return `Error: ${this.state.error.message}`;
+        }
+
         console.log('2/4')
         return ( 
             <React.Fragment>
-               
-
                 <div className="Badges">
                     <div className="Badges__hero">
                         <div className="Badges__container">
@@ -90,9 +92,7 @@ class Badges extends React.Component {
                         </div>
                     </div>
                 </div>
-
                 <div>
-
                     <div className="Badge__container">
                         <div className="Badges__buttons">
                             <Link to="/badges/new" className="btn btn-primary">
@@ -105,9 +105,6 @@ class Badges extends React.Component {
                              <BadgesList badges={this.state.data} />
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
             </React.Fragment>
