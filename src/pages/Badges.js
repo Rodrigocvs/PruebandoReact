@@ -10,11 +10,11 @@ import PageError from '../components/PageError';
 
 class Badges extends React.Component {
     
-state = {
-    loading: true,
-    error: null,
-    data: undefined
-};
+    state = {
+        loading: true,
+        error: null,
+        data: undefined
+    };
 
 /*Este método se ejecuta cuando se instancia un componente. Nos permite definir el 
 estado inicial del 		componente, hacer bind de métodos y definir propiedades internas 
@@ -39,7 +39,7 @@ notificaciones, etc.). ACA HAGO LAS PETICIONES A LAS API*/
         //             data: 
         //          });
         //      }, 3000);
-        this.fechtData ()
+        this.fechtData () //para llamar a la api
    }
 
    fechtData = async ()=>{
