@@ -5,6 +5,8 @@ import confLogo from '../images/badge-header.svg';
 import BadgesList from '../components/BadgesList';
 import { Link } from 'react-router-dom';
 import api from '../api';
+import PageLoading from '../components/PageLoading';
+import PageError from '../components/PageError';
 
 class Badges extends React.Component {
     
@@ -76,10 +78,10 @@ el estado y el contexto y se va a generar la UI inicial de este componente*/
     render() { 
 //cuando estoy empezando y estoy leyendo los datos        
         if(this.state.loading === true){
-            return 'Loading...';
+            return <PageLoading/>;
         }
-        if(this.state.error){
-            return `Error: ${this.state.error.message}`;
+        if(this.state.error) {
+            return <PageError error={this.state.error} />;
         }
 
         console.log('2/4')

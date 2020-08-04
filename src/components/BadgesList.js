@@ -36,7 +36,6 @@ class BadgesList extends React.Component {
           <Link className="btn btn-primary" to="/badges/new">
             Create new badge
           </Link>
-
         </div>
       )
     }
