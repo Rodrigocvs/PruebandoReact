@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import api from '../api';
 import PageLoading from '../components/PageLoading';
 import PageError from '../components/PageError';
+import MiniLoader from '../components/MiniLoader';
 
 class Badges extends React.Component {
     
@@ -39,7 +40,9 @@ notificaciones, etc.). ACA HAGO LAS PETICIONES A LAS API*/
         //             data: 
         //          });
         //      }, 3000);
-        this.fechtData () //para llamar a la api
+        this.fechtData (); //para llamar a la api
+        this.intervalId = setInterval(this.fechtData, 5000)
+        
    }
 
    fechtData = async ()=>{
@@ -63,6 +66,8 @@ notificaciones, etc.). ACA HAGO LAS PETICIONES A LAS API*/
 //            props: this.props,
 //            state: this.state,
 //        });
+//cada 5 llama a la funcion fetchdata y actualiza la
+        
     }
 //cuando abandono la pagina
 /*Una vez el método anterior devolvió true 
@@ -70,14 +75,15 @@ se ejecuta este método, acá es posible realizar cualquier
 tipo de preparación antes de que se actualice de la UI*/
     componentWillUnmount(){
         console.log('6')
-//        clearTimeout(this.timeoutId)
+    //        clearTimeout(this.timeoutId)
+        clearInterval(this.intervalId)
     }
 // lo que tengo que mostrar en pantalla, calculo lo que tengo que mostrar en pantalla
 /*En este momento de la fase de montado se van a tomar las propiedades, 
 el estado y el contexto y se va a generar la UI inicial de este componente*/
     render() { 
 //cuando estoy empezando y estoy leyendo los datos        
-        if(this.state.loading === true){
+        if(this.state.loading === true && !this.state.data ){
             return <PageLoading/>;
         }
         if(this.state.error) {
@@ -105,6 +111,8 @@ el estado y el contexto y se va a generar la UI inicial de este componente*/
                         <div className="Badges__list">
                             <div className="Badges__container">
                              <BadgesList badges={this.state.data} />
+
+                             {this.state.loading && <MiniLoader/>}
                             </div>
                         </div>
                     </div>
